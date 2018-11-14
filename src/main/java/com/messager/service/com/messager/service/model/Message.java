@@ -10,8 +10,8 @@ import java.util.Date;
 public class Message {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
     private String message;
     private Date created;
     private String author;
@@ -19,18 +19,18 @@ public class Message {
     public Message() {
     }
 
-    public Message(long id, String message, Date created, String author) {
+    public Message(long id, String message, String author) {
         this.id = id;
         this.message = message;
-        this.created = created;
+        this.created = new Date();
         this.author = author;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,5 +56,12 @@ public class Message {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "created=" + created +
+                '}';
     }
 }
