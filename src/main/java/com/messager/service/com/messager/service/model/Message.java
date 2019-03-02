@@ -1,28 +1,34 @@
 package com.messager.service.com.messager.service.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Date;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Message {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
-    private Date created;
+    private LocalDate created;
     private String author;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "message")
+    private Set<Comment> comments; //= new HashSet<>();
 
     public Message() {
     }
 
+    public Message(String message, String author) {
+        this.message = message;
+        this.author = author;
+    }
     public Message(long id, String message, String author) {
         this.id = id;
         this.message = message;
-        this.created = new Date();
         this.author = author;
     }
 
@@ -42,11 +48,11 @@ public class Message {
         this.message = message;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 
@@ -58,10 +64,21 @@ public class Message {
         this.author = author;
     }
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
-                "created=" + created +
+                "id=" + id +
+                ", message='" + message + '\'' +
+                ", created=" + created +
+                ", author='" + author + '\'' +
                 '}';
     }
 }

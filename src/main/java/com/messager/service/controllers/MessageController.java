@@ -2,6 +2,7 @@ package com.messager.service.controllers;
 
 import com.messager.service.com.messager.service.model.Message;
 import com.messager.service.services.MessageService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,30 +20,32 @@ public class MessageController {
     }
 
     @GetMapping
-    public List<Message> getAllMessages(){
+    public List<Message> getAllMessages() {
         return messageService.findAllMessages();
     }
 
     @GetMapping("/{id}")
-    public Message findMessageById(@PathVariable Long id){
+    public Message findMessageById(@PathVariable Long id) {
         return messageService.findMessageById(id);
     }
 
     @PostMapping
-    public Message saveMessage(@RequestBody Message message){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Message saveMessage(@RequestBody Message message) {
 
         return messageService.saveMessage(message);
     }
 
     @PutMapping("/{id}")
-    public void updateMessage(@RequestBody Message message, @PathVariable Long id){
+    public void updateMessage(@RequestBody Message message, @PathVariable Long id) {
 
         messageService.updateMessage(message, id);
     }
 
-
-    @DeleteMapping("{/id}")
-    public void deleteMessage(@PathVariable Long id){
+    @DeleteMapping("{id}")
+    public void deleteMessage(@PathVariable Long id) {
         messageService.deleteMessage(id);
     }
+
+
 }
